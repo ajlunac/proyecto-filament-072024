@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Register any application services.
      */
@@ -20,5 +22,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
+            // Custom configurations go here
+            $panelSwitch
+            ->simple()
+            ->visible(fn (): bool => auth()->user()?->hasAnyRole([
+                'super_admin',
+            ]));
+            
+        });
+
     }
 }
