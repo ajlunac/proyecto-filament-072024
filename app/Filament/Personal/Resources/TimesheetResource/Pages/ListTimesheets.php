@@ -13,6 +13,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ListTimesheets extends ListRecords
 {
@@ -126,7 +127,14 @@ class ListTimesheets extends ListRecords
                 }),
             Actions\CreateAction::make(),
             ExcelImportAction::make()->color("info")->use(MyTimesheetImport::class),
-
+            Action::make('createPDF')
+                ->label('Crear PDF')
+                ->color('danger')
+                ->requiresConfirmation()
+                ->url(
+                    fn (): string => route('pdf.example', ['user' => Auth::user()]),
+                    shouldOpenInNewTab: true
+            ),
         ];
     }
 }

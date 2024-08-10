@@ -32,7 +32,14 @@ class PersonalPanelProvider extends PanelProvider
             ->default()
             ->colors([
                 'primary' => Color::Amber,
+                // 'danger' => Color::Rose,
+                // 'gray' => Color::Gray,
+                // 'info' => Color::Blue,
+                // 'primary' => Color::Purple,
+                // 'success' => Color::Amber,
+                // 'warning' => Color::Orange,
             ])
+            ->profile()
             ->discoverResources(in: app_path('Filament/Personal/Resources'), for: 'App\\Filament\\Personal\\Resources')
             ->discoverPages(in: app_path('Filament/Personal/Pages'), for: 'App\\Filament\\Personal\\Pages')
             ->pages([
@@ -72,7 +79,20 @@ class PersonalPanelProvider extends PanelProvider
                 MenuItem::make()
                     ->label('Admin')
                     ->url('/admin')
-                    ->icon('heroicon-o-cog-6-tooth'),
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->visible(function (){
+                        if(auth()->user()){
+                            if(auth()->user()?->hasAnyRole([
+                                'super_admin'
+                            ])){
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    }),
                 // ...
             ]);
     }
