@@ -7,6 +7,7 @@ use App\Filament\Personal\Resources\TimesheetResource\RelationManagers;
 use App\Models\Timesheet;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\FormsComponent;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Columns\Column;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use Filament\Forms\Components\Wizard;
 
 class TimesheetResource extends Resource
 {
@@ -42,6 +44,7 @@ class TimesheetResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+
             ->schema([
                 Forms\Components\Select::make('calendar_id')
                     ->relationship(name: 'calendar', titleAttribute: 'name')
@@ -57,6 +60,7 @@ class TimesheetResource extends Resource
                 Forms\Components\DateTimePicker::make('day_out')
                     ->required(),
             ]);
+
     }
 
     public static function table(Table $table): Table
